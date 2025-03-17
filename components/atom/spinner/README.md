@@ -49,6 +49,17 @@ return (
 )
 ```
 
+### Custom Animation Speed
+You can control the animation speed:
+
+```js
+import AtomSpinner from '@s-ui/react-atom-spinner'
+
+return (
+  <AtomSpinner animationSpeed={2000} />
+)
+```
+
 ### Overlay Types
 Different overlay types can be selected. Each one modify the overlay background color and the colors of the loader. All of these can be customized in your theme.
 Options are: ```LIGHT``` (default), ```ACCENT```, ```DARK```, ```PRIMARY``` and ```TRANSPARENT```.
@@ -103,5 +114,26 @@ return (
 )
 ```
 
+## Accessibility Features
+
+The spinner component implements the following accessibility features:
+
+- Uses `role="status"` to indicate a loading state to assistive technologies
+- Provides a visually hidden text message for screen readers using `aria-live="polite"`
+- Respects the user's `prefers-reduced-motion` preference by pausing animations when enabled
+- Allows customizing animation speed through the `animationSpeed` prop
+- Does not interfere with keyboard navigation or focus management
+
+### Animation Speed Control
+
+```js
+import AtomSpinner from '@s-ui/react-atom-spinner'
+
+// Slower animation (2 seconds)
+return <AtomSpinner animationSpeed={2000} />
+
+// Faster animation (500 milliseconds)
+return <AtomSpinner animationSpeed={500} />
+```
 
 > **Find full description and more examples in the [demo page](https://sui-components.now.sh/workbench/atom/spinner/demo).**

@@ -20,6 +20,19 @@ $base-class: '.sui-AtomSpinner';
     top: 0;
   }
 
+  &-visuallyHidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+    word-wrap: normal;
+  }
+
   &--fullPage {
     &::before {
       @extend %spinner-layer;
@@ -34,6 +47,7 @@ $base-class: '.sui-AtomSpinner';
 
   #{&}-loader {
     display: block;
+    animation-duration: var(--animation-duration, 1.5s);
   }
 
   @each $name, $type in $atom-spinner-overlay-types {
@@ -52,6 +66,12 @@ $base-class: '.sui-AtomSpinner';
         height: $size;
         width: $size;
       }
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    &-loader {
+      animation-play-state: paused;
     }
   }
 }
