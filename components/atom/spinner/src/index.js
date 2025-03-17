@@ -16,7 +16,8 @@ const AtomSpinner = forwardRef(
       loader = <SUILoader />,
       overlayType = OVERLAY_TYPES.LIGHT,
       size = SIZES.MEDIUM,
-      type = TYPES.SECTION
+      type = TYPES.SECTION,
+      animationSpeed
     },
     forwardedRef
   ) => {
@@ -43,6 +44,13 @@ const AtomSpinner = forwardRef(
         removeParentClass(parentNodeClassList)(parentClassName)
       }
     }, [isDelayed, overlayType, size, type])
+    
+    // Apply animation speed if provided
+    useEffect(() => {
+      if (animationSpeed && refSpinner.current) {
+        refSpinner.current.style.setProperty('--animation-duration', `${animationSpeed}ms`)
+      }
+    }, [animationSpeed])
 
     return (
       <div ref={refSpinner} className="sui-AtomSpinner-content">
@@ -94,7 +102,12 @@ AtomSpinner.propTypes = {
    * 'FULL': The spinner fits the whole page container
    * 'SECTION': The spinner fits a specific site component
    */
-  type: PropTypes.oneOf(Object.values(TYPES))
+  type: PropTypes.oneOf(Object.values(TYPES)),
+  
+  /**
+   * Animation speed in milliseconds
+   */
+  animationSpeed: PropTypes.number
 }
 
 export {OVERLAY_TYPES as atomSpinnerOverlayTypes, TYPES as atomSpinnerTypes, SIZES as atomSpinnerSizes}
