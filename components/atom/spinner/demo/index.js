@@ -6,6 +6,7 @@ import CustomLoader from './CustomLoader.js'
 import FullScreenSpinner from './FullScreenSpinner.js'
 import {CLASS_SECTION} from './settings.js'
 import SpinnerWrapper from './SpinnerWrapper.js'
+import AccessibilityDemo from './AccessibilityDemo.js'
 
 const Demo = () => {
   return (
@@ -151,6 +152,7 @@ const Demo = () => {
         </FullScreenSpinner>
       </Article>
       <br />
+      <AccessibilityDemo />
     </div>
   )
 }

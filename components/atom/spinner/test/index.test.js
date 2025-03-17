@@ -13,6 +13,8 @@ import chaiDOM from 'chai-dom'
 import json from '../package.json'
 import * as pkg from '../src/index.js'
 
+import {render, screen} from '@testing-library/react'
+
 chai.use(chaiDOM)
 
 describe(json.name, () => {
@@ -176,5 +178,38 @@ describe(json.name, () => {
         expect(actual[expectedKey]).to.equal(expectedValue)
       })
     })
+  })
+})
+
+describe('AtomSpinner', () => {
+  test('renders without crashing', () => {
+    render(<AtomSpinner />)
+  })
+
+  test('should add aria-live and role attributes', () => {
+    render(<AtomSpinner />)
+    const statusElement = screen.getByRole('status')
+    expect(statusElement).toBeInTheDocument()
+    expect(statusElement).toHaveAttribute('aria-live', 'polite')
+  })
+
+  test('should display custom aria-label text for screen readers', () => {
+    const customLabel = 'Loading user profile'
+    render(<AtomSpinner ariaLabel={customLabel} />)
+    const hiddenText = screen.getByText(customLabel)
+    expect(hiddenText).toBeInTheDocument()
+    expect(hiddenText).toHaveClass('sui-AtomSpinner-visuallyHidden')
+  })
+
+  test('should apply animation-duration style when animationSpeed is provided', () => {
+    const {container} = render(<AtomSpinner animationSpeed={2000} />)
+    const content = container.querySelector('.sui-AtomSpinner-content')
+    expect(content.style.getPropertyValue('--animation-duration')).toBe('2000ms')
+  })
+
+  test('should apply ignoreReducedMotion class when respectReducedMotion is false', () => {
+    const {container} = render(<AtomSpinner respectReducedMotion={false} />)
+    const content = container.querySelector('.sui-AtomSpinner-content')
+    expect(content).toHaveClass('sui-AtomSpinner--ignoreReducedMotion')
   })
 })
