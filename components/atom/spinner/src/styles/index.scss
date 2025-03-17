@@ -19,6 +19,23 @@ $base-class: '.sui-AtomSpinner';
     right: 0;
     top: 0;
   }
+  
+  &-loaderContainer {
+    position: relative;
+  }
+
+  &-visuallyHidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+    word-wrap: normal;
+  }
 
   &--fullPage {
     &::before {
@@ -34,6 +51,7 @@ $base-class: '.sui-AtomSpinner';
 
   #{&}-loader {
     display: block;
+    animation-duration: var(--animation-duration, 1.5s);
   }
 
   @each $name, $type in $atom-spinner-overlay-types {
@@ -51,6 +69,14 @@ $base-class: '.sui-AtomSpinner';
       .sui-AtomSpinner-loader {
         height: $size;
         width: $size;
+      }
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    &:not(.sui-AtomSpinner--ignoreReducedMotion) {
+      &-loader {
+        animation-play-state: paused;
       }
     }
   }

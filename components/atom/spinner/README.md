@@ -34,7 +34,7 @@ By default ```type``` prop has ```atomSpinnerTypes.SECTION``` value.
 import AtomSpinner, {atomSpinnerTypes} from '@s-ui/react-atom-spinner'
 
 return (
-  <AtomSpinner type={AtomSpinnerTypes.FULL} />
+  <AtomSpinner type={atomSpinnerTypes.FULL} />
 )
 ```
 
@@ -103,5 +103,61 @@ return (
 )
 ```
 
+## Accessibility Features
+
+The spinner component implements the following accessibility features to comply with WCAG 2.1 guidelines:
+
+- Uses `role="status"` to indicate a loading state to assistive technologies
+- Provides a visually hidden text message for screen readers using `aria-live="polite"`
+- Respects the user's `prefers-reduced-motion` preference
+- Allows customizing the text announced to screen readers
+- Does not interfere with keyboard navigation
+- Allows control over animation speed
+
+### Accessibility Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `ariaLabel` | String | 'Loading content' | Text announced to screen readers |
+| `respectReducedMotion` | Boolean | true | Whether to respect prefers-reduced-motion |
+| `animationSpeed` | Number | 1500 | Animation speed in milliseconds |
+
+### Custom Screen Reader Announcement
+
+You can customize the text announced to screen readers:
+
+```js
+import AtomSpinner from '@s-ui/react-atom-spinner'
+
+return <AtomSpinner ariaLabel="Loading search results" />
+```
+
+### Motion Sensitivity
+
+For users with vestibular disorders or motion sensitivity, the spinner respects the `prefers-reduced-motion` media query by default:
+
+```js
+import AtomSpinner from '@s-ui/react-atom-spinner'
+
+// Default behavior - respects user's reduced motion preference
+return <AtomSpinner />
+
+// Override - always animate regardless of user preference
+return <AtomSpinner respectReducedMotion={false} />
+```
+
+### Animation Speed Control
+
+You can adjust the animation speed to meet your needs:
+
+```js
+import AtomSpinner from '@s-ui/react-atom-spinner'
+
+// Slower animation (3 seconds)
+return <AtomSpinner animationSpeed={3000} />
+
+// Faster animation (500 milliseconds)
+return <AtomSpinner animationSpeed={500} />
+```
 
 > **Find full description and more examples in the [demo page](https://sui-components.now.sh/workbench/atom/spinner/demo).**

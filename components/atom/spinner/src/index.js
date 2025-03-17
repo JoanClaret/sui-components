@@ -16,7 +16,10 @@ const AtomSpinner = forwardRef(
       loader = <SUILoader />,
       overlayType = OVERLAY_TYPES.LIGHT,
       size = SIZES.MEDIUM,
-      type = TYPES.SECTION
+      type = TYPES.SECTION,
+      ariaLabel = 'Loading content',
+      animationSpeed,
+      respectReducedMotion = true
     },
     forwardedRef
   ) => {
@@ -44,11 +47,34 @@ const AtomSpinner = forwardRef(
       }
     }, [isDelayed, overlayType, size, type])
 
+    // Apply animation speed if provided
+    useEffect(() => {
+      if (refSpinner.current) {
+        if (animationSpeed) {
+          refSpinner.current.style.setProperty('--animation-duration', `${animationSpeed}ms`)
+        } else {
+          refSpinner.current.style.removeProperty('--animation-duration')
+        }
+        
+        if (!respectReducedMotion) {
+          refSpinner.current.classList.add('sui-AtomSpinner--ignoreReducedMotion')
+        } else {
+          refSpinner.current.classList.remove('sui-AtomSpinner--ignoreReducedMotion')
+        }
+      }
+    }, [animationSpeed, respectReducedMotion])
+
+    // Create accessible loader with proper ARIA attributes
+    const accessibleLoader = 
+      loader && loader.type === SUILoader 
+        ? React.cloneElement(loader, { ariaLabel }) 
+        : <SUILoader ariaLabel={ariaLabel} />
+
     return (
       <div ref={refSpinner} className="sui-AtomSpinner-content">
         <Injector
           isDelayed={isDelayed}
-          loader={loader}
+          loader={accessibleLoader}
           overlayType={overlayType}
           ref={forwardedRef}
           size={size}
@@ -94,7 +120,22 @@ AtomSpinner.propTypes = {
    * 'FULL': The spinner fits the whole page container
    * 'SECTION': The spinner fits a specific site component
    */
-  type: PropTypes.oneOf(Object.values(TYPES))
+  type: PropTypes.oneOf(Object.values(TYPES)),
+  
+  /**
+   * Text announced to screen readers
+   */
+  ariaLabel: PropTypes.string,
+  
+  /**
+   * Animation speed in milliseconds
+   */
+  animationSpeed: PropTypes.number,
+  
+  /**
+   * Whether to respect user's prefers-reduced-motion setting
+   */
+  respectReducedMotion: PropTypes.bool
 }
 
 export {OVERLAY_TYPES as atomSpinnerOverlayTypes, TYPES as atomSpinnerTypes, SIZES as atomSpinnerSizes}
