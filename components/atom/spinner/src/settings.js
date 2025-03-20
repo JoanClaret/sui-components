@@ -18,6 +18,12 @@ export const OVERLAY_TYPES = {
   TRANSPARENT: 'transparent'
 }
 
+export const SPEEDS = {
+  SLOW: 'slow',
+  DEFAULT: 'default',
+  FAST: 'fast'
+}
+
 export const DELAY = 500 // ms
 export const BASE_CLASS = 'sui-AtomSpinner'
 export const CLASS_FULL = `${BASE_CLASS}--fullPage`
